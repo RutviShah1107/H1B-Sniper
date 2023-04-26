@@ -1,6 +1,5 @@
-# H1B-Sniper
-An idea to identify the companies that provide H1B sponsorship to international employees. Using governmental data for the past decade to analyze the companies, skills and job roles required to increase the chance for obtaining H1B visa sponsorships. This API can be added as an extension to companies like LinkedIn in their “Job Search” Section.
 # H1B-Sponsorship-Tracker-Web-APP
+An idea to identify the companies that provide H1B sponsorship to international employees. Using governmental data for the past decade to analyze the companies, skills and job roles required to increase the chance for obtaining H1B visa sponsorships. This API can be added as an extension to companies like LinkedIn in their “Job Search” Section.
 
 ### Data Source
 United States Department of Labor (DOL) website - http://www.foreignlaborcert.doleta.gov/performancedata.cfm#dis
