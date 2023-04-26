@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>H-1B Sponsorship Tracker</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='CSS.css') }}">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+	</style>
+
+	<script>
+	function clearSearch() {
+		window.location.href = '/';
+		}
+	</script>
+	
+</head>
+<body>
+	<h1>H-1B Sponsorship Tracker</h1>
+	<!-- Results table -->
+	<form method="POST" action="/search">
+		<!-- Search input -->
+		<label for="search">Search:</label>
+		<input type="text" id="search" name="search_term" placeholder="Search for Job Title, Company or Location" value="{{ search_term }}">
+
+		<input type="submit" value="Search">
+	
+		<button type="button" onclick="clearSearch();" id="clear_search_button">Clear</button>
+
+		<!-- Results table -->
+		<table>
+			<thead>
+				<tr>
+					<th>Job Title</th>
+					<th>Company</th>
+					<th>State, City</th>
+					<th>
+						Case Status
+						<select id="status" name="status">
+							{% for option_value, option_name in [('all', 'All'), ('Certified', 'Certified'), ('Certified - Withdrawn', 'Certified - Withdrawn'), ('denied', 'Denied'), ('Withdrawn', 'Withdrawn')] %}
+							<option value="{{ option_value }}" {% if filters and filters['case_status'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}							
+						</select>
+					</th>
+					<th>
+						Date
+						<select id="timeframe" name="timeframe">
+							{% for option_value, option_name in [('all', 'All'), ('2021', '2021'), ('2020', '2020'), ('2019', '2019')] %}
+							<option value="{{ option_value }}" {% if filters and filters['decision_date'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}
+						</select>
+					</th>
+					<th>
+						Wage
+						<select id="wage_rate_of_pay_from" name="wage_rate_of_pay_from">
+							{% for option_value, option_name in [('Default', 'Default'), ('Asce', 'Asce'), ('Desc', 'Desc')] %}
+							<option value="{{ option_value }}" {% if filters and filters['wage_rate_of_pay_from'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}
+                        </select>
+					</th>
+					<th>
+						Unit of Pay
+						<select id="wage_unit_of_pay" name="wage_unit_of_pay">
+							{% for option_value, option_name in [('all', 'All'), ('Hour', 'Hour'), ('Weekly', 'Weekly'), ('Bi-Weekly', 'Bi-Weekly'), ('Month', 'Month'), ('Year', 'Year')] %}
+							<option value="{{ option_value }}" {% if filters and filters['wage_unit_of_pay'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}										
+                        </select>
+					</th>
+					<th>
+						H-1B Dependent
+						<select id="dependent" name="dependent">
+							{% for option_value, option_name in [('all', 'All'), ('yes', 'Yes'), ('no', 'No')] %}
+							<option value="{{ option_value }}" {% if filters and filters['h_1b_dependent'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}							
+						</select>
+					</th>
+					<th>
+						Full-Time Position
+						<select id="full_time_positon" name="full_time_positon">
+							{% for option_value, option_name in [('all', 'All'), ('y', 'Yes'), ('n', 'No')] %}
+							<option value="{{ option_value }}" {% if filters and filters['full_time_position'] == option_value %}selected{% endif %}>{{ option_name }}</option>
+							{% endfor %}							
+						</select>
+					</th>
+				</tr>
+			</thead>
+			{% if results %}
+				<tbody>
+					{% for row in results %}
+						<tr>
+							<td>{{ row[0] }}</td>
+							<td>{{ row[1] }}</td>
+							<td>{{ row[2] }}, {{ row[3] }}</td>
+							<td>{{ row[4] }}</td>
+							<td>{{ row[5] }}</td>
+							<td>{{ row[6] }}</td>
+							<td>{{ row[7] }}</td>
+							<td>{{ row[8] }}</td>
+							<td>{{ row[9] }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			{% endif %}
+		</table>
+	</form>
+	
+
+</body>
+</html>
